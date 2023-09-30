@@ -1,0 +1,55 @@
+{
+  "name": "@hookform/inputs",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [
+    "react",
+    "mui",
+    "material-ui",
+    "react-hook-form",
+    "hookform",
+    "typescript",
+    "typesafe"
+  ],
+  "author": "Jose V Sebastian <josevseb99@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "mui": {
+      "import": "./dist/mui/index.js",
+      "types": "./dist/mui/index.d.ts"
+    },
+    "mui/*": {
+      "import": "./dist/mui/*.js",
+      "types": "./dist/mui/*.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "start": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-typescript": "^11.1.4",
+    "@types/react": "^18.2.23",
+    "glob": "^10.3.10",
+    "rollup": "^3.29.4",
+    "rollup-plugin-delete": "^2.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "@mui/material": ">= 5.x <6",
+    "react": ">=17 <19",
+    "react-hook-form": ">=7.33"
+  },
+  "peerDependenciesMeta": {
+    "@mui/material": {
+      "optional": true
+    }
+  }
+}
