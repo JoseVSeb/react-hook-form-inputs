@@ -18,26 +18,26 @@ type TextFieldRenderProps<
   Required<Pick<TextFieldProps, "inputRef" | "error">> &
   Pick<TextFieldProps, "helperText">;
 
-type TextFieldControllerReturn<
+type UseTextFieldControllerReturn<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = [TextFieldRenderProps<TFieldValues, TName>];
+> = { textFieldProps: TextFieldRenderProps<TFieldValues, TName> };
 
 export const useTextFieldController = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(
   props: UseControllerProps<TFieldValues, TName>,
-): TextFieldControllerReturn<TFieldValues, TName> => {
+): UseTextFieldControllerReturn<TFieldValues, TName> => {
   const params = useController(props);
   const {
     field: { ref, name, onBlur, onChange, value, disabled },
     fieldState: { invalid, error },
   } = params;
 
-  return useMemo<TextFieldControllerReturn<TFieldValues, TName>>(
-    () => [
-      {
+  return useMemo<UseTextFieldControllerReturn<TFieldValues, TName>>(
+    () => ({
+      textFieldProps: {
         name,
         onBlur,
         onChange,
@@ -47,7 +47,7 @@ export const useTextFieldController = <
         error: invalid,
         helperText: error?.message,
       },
-    ],
+    }),
     [disabled, error?.message, invalid, name, onBlur, onChange, ref, value],
   );
 };
@@ -60,6 +60,6 @@ export const TextFieldController = <
   ...props
 }: UseControllerProps<TFieldValues, TName> & {
   children: (
-    ...props: TextFieldControllerReturn<TFieldValues, TName>
+    props: UseTextFieldControllerReturn<TFieldValues, TName>
   ) => React.ReactElement;
-}) => children(...useTextFieldController(props));
+}) => children(useTextFieldController(props));
