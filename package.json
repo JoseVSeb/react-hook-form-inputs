@@ -13,6 +13,13 @@
   ],
   "author": "Jose V Sebastian <josevseb99@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoseVSeb/react-hook-form-inputs.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "exports": {
     "mui": {
@@ -56,9 +63,5 @@
     "@mui/material": {
       "optional": true
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JoseVSeb/react-hook-form-inputs.git"
   }
 }
