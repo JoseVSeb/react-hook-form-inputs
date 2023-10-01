@@ -5,6 +5,7 @@ import del from "rollup-plugin-delete";
 import { glob } from "glob";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import pkg from "./package.json" assert { type: "json" };
 
 /** @type {import("rollup").RollupOptions[]} */
 export default [
@@ -38,5 +39,6 @@ export default [
       commonjs(),
       resolve(),
     ],
+    external: Object.keys(pkg.peerDependencies),
   },
 ];
