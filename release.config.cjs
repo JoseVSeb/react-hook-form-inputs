@@ -11,8 +11,19 @@ const config = {
   plugins: [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
+    [
+      "@semantic-release/changelog",
+      {
+        changelogTitle:
+          "# Changelog\n\nAll notable changes to this project will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines.",
+      },
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        tarballDir: "pack",
+      },
+    ],
     [
       "@semantic-release/git",
       {
@@ -21,7 +32,12 @@ const config = {
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
       },
     ],
-    "@semantic-release/github",
+    [
+      "@semantic-release/github",
+      {
+        assets: "pack/*.tgz",
+      },
+    ],
   ],
 };
 
