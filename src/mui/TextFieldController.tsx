@@ -1,55 +1,16 @@
-import { TextFieldProps } from "@mui/material/TextField";
-import { useMemo } from "react";
+import { FieldPath, FieldValues, UseControllerProps } from "react-hook-form";
 import {
-  ControllerRenderProps,
-  FieldPath,
-  FieldValues,
-  UseControllerProps,
-  useController,
-} from "react-hook-form";
+  UseTextFieldControllerReturn,
+  useTextFieldController,
+} from "./useTextFieldController";
 
-type TextFieldRenderProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = Pick<
-  ControllerRenderProps<TFieldValues, TName>,
-  "name" | "onBlur" | "onChange" | "value" | "disabled"
-> &
-  Required<Pick<TextFieldProps, "inputRef" | "error">> &
-  Pick<TextFieldProps, "helperText">;
-
-type UseTextFieldControllerReturn<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = { textFieldProps: TextFieldRenderProps<TFieldValues, TName> };
-
-export const useTextFieldController = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(
-  props: UseControllerProps<TFieldValues, TName>,
-): UseTextFieldControllerReturn<TFieldValues, TName> => {
-  const params = useController(props);
-  const {
-    field: { ref, name, onBlur, onChange, value, disabled },
-    fieldState: { invalid, error },
-  } = params;
-
-  return useMemo<UseTextFieldControllerReturn<TFieldValues, TName>>(
-    () => ({
-      textFieldProps: {
-        name,
-        onBlur,
-        onChange,
-        value,
-        disabled,
-        inputRef: ref,
-        error: invalid,
-        helperText: error?.message,
-      },
-    }),
-    [disabled, error?.message, invalid, name, onBlur, onChange, ref, value],
-  );
+export type TextFieldControllerProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+> = UseControllerProps<TFieldValues, TName> & {
+  children: (
+    props: UseTextFieldControllerReturn<TFieldValues, TName>,
+  ) => React.ReactElement;
 };
 
 export const TextFieldController = <
@@ -58,8 +19,5 @@ export const TextFieldController = <
 >({
   children,
   ...props
-}: UseControllerProps<TFieldValues, TName> & {
-  children: (
-    props: UseTextFieldControllerReturn<TFieldValues, TName>
-  ) => React.ReactElement;
-}) => children(useTextFieldController(props));
+}: TextFieldControllerProps<TFieldValues, TName>) =>
+  children(useTextFieldController(props));
